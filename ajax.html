@@ -1,0 +1,30 @@
+<html>
+<head>
+  <title>ajax</title>
+</head>
+<body>
+  <input id="in" type="text"></input>
+  <button id="button">a</button>
+  <br>login and node_id
+  <p id="p"></p>
+</body>
+<script>
+  var input=document.getElementById("in");
+  var button=document.getElementById("button");
+  var p=document.getElementById("p");
+  button.onclick=function()
+  {
+    var xhr=new XMLHttpRequest();
+    xhr.open("GET","https://api.github.com/users?since="+input.value);
+    xhr.onload=function()
+    {
+      p.innerHTML="";
+      console.log(xhr.responseText);
+      var data=JSON.parse(xhr.responseText);
+      var main=data[0].login;
+      var node=data[0].node_id;
+      p.innerHTML=main+" and "+node;
+    }
+    xhr.send();
+  }
+</script>
