@@ -1,0 +1,73 @@
+<html>
+<head>
+<style>
+
+#main1{
+width:500px;
+height:400px;
+box-shadow: 0px 0px 5px 0px gray;
+display:block;
+margin-top: 100px;
+
+}
+
+</style>
+</head>
+<body onload=main() >
+<center>
+<div id="main1">
+<br>
+<p><b> URL :</b></p>
+<p id="url"></p>
+<p><b>Login</b></p>
+<p id="login"></p>
+<img id="imagee" style="width:200px;height:200px;">
+</div>
+</center>
+<br>
+<button id="prev" style="float:left;margin-left: 500px">Previous</button>
+<button id="next" style="float: right;margin-right: 500px">Next</button>
+</body>
+<script>
+var data=[];
+var	prev=document.getElementById("prev");
+var next=document.getElementById("next");
+var	currentid=0;
+function main()
+{
+var	xhr=new	XMLHttpRequest();
+var	url="https://api.github.com/users?since=1>";
+xhr.open("GET",url);
+xhr.send();
+xhr.onload=function(){
+data=JSON.parse(this.responseText);
+document.getElementById("url").innerHTML=data[0].avatar_url;
+document.getElementById("login").innerHTML=data[0].login;
+document.getElementById("imagee").setAttribute("src",data[0].avatar_url);
+currentid=1;
+}
+}
+prev.onclick=function(){
+if(currentid!=1){
+currentid--;
+document.getElementById("url").innerHTML=data[currentid].avatar_url;
+document.getElementById("login").innerHTML=data[currentid].login;
+document.getElementById("imagee").setAttribute("src",data[currentid].avatar_url);
+
+}
+else
+alert("Last User");
+}
+next.onclick=function(){
+if(currentid!=(data.length-1)){
+currentid++;
+document.getElementById("url").innerHTML=data[currentid].avatar_url;
+document.getElementById("login").innerHTML=data[currentid].login;
+document.getElementById("imagee").setAttribute("src",data[currentid].avatar_url);
+
+}
+else
+alert("Last User");
+}
+</script>
+</html>
