@@ -1,0 +1,73 @@
+<html>
+<head>
+<style>
+
+#main1{
+width:auto;
+height:auto;
+box-shadow: 0px 0px 5px 0px gray;
+display:block;
+margin-top: 60px;
+
+}
+
+</style>
+</head>
+<body onload=main()>
+<center>
+<div id="main1">
+<br>
+<table id="table">
+  <th>URL</th>
+  <th>LOGIN ID</th>
+  <th>Repo</th>
+  <th>Repo Names</th>
+</table>
+</div>
+</center>
+<br>
+</body>
+<script>
+var data=[];
+var datarepo=[];
+function main()
+{
+  var	xhr=new	XMLHttpRequest();
+  var	url="https://api.github.com/users?since=1>";
+  xhr.open("GET",url);
+  xhr.send();
+  xhr.onload=function(){
+    data=JSON.parse(this.responseText);
+    for(var i=0;i<data.length;i++)
+    {
+      var tr=document.createElement("tr");
+      var td1=document.createElement("td");
+      var td2=document.createElement("td");
+      var td3=document.createElement("td");
+      var td4=document.createElement("td");
+      td1.innerHTML=data[i].avatar_url;
+      td2.innerHTML=data[i].login;
+      td3.innerHTML=data[i].repos_url;
+      var xhr1=new XMLHttpRequest();
+      var repourl=data[i].repos_url;
+      xhr1.open("GET",repourl);
+      xhr1.send();
+      xhr1.onload=function(){
+        datarepo=JSON.parse(this.responseText);
+        for(var j=0;j<datarepo.length;j++)
+        {
+          var li=document.createElement("li");
+          li.innerHTML=datarepo[j].name;
+          td4.appendChild(li);
+        }
+      }
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+      document.getElementById('table').appendChild(tr);
+
+    }
+  }
+}
+</script>
